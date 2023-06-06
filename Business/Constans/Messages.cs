@@ -19,7 +19,7 @@ namespace Business.Constans
         public static string ProductNameAlreadyExists="Bu ürün adı daha önce kullanılmış";
         public static string CategoryLimitExceded="Kategori limiti aşıldığı için yeni ürün eklenemiyor";
         public static string AuthorizationDenied="Yetkiniz yok";
-        internal static string UserRegistered;
+        public static string UserRegistered="Kullanıcı kayıtlı";
         internal static User UserNotFound;
         internal static User PasswordError;
         internal static string SuccessfulLogin;

@@ -31,7 +31,7 @@ namespace Business.Concrete
             _categoryService = categoryService;
         }
 
-        [SecuredOperation("product.add,admin")]
+        //[SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
@@ -42,7 +42,7 @@ namespace Business.Concrete
                 return result;
             }
             _productDal.Add(product);
-            return new ErrorResult();
+            return new SuccessResult(Messages.ProductAdded);
 
         }
 
@@ -81,8 +81,6 @@ namespace Business.Concrete
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Update(Product product)
         {
-
-
             throw new NotImplementedException();
         }
 
@@ -113,7 +111,7 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.CategoryLimitExceded);
             }
-            return new ErrorResult();
+            return new SuccessResult();
         }
     }
 }
