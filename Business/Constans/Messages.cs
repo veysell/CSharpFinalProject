@@ -20,10 +20,11 @@ namespace Business.Constans
         public static string CategoryLimitExceded="Kategori limiti aşıldığı için yeni ürün eklenemiyor";
         public static string AuthorizationDenied="Yetkiniz yok";
         public static string UserRegistered="Kullanıcı kayıtlı";
-        internal static User UserNotFound;
-        internal static User PasswordError;
-        internal static string SuccessfulLogin;
-        internal static string UserAlreadyExists;
-        internal static string AccessTokenCreated;
+        public static string UserNotFound="Kullanıcı bulunamadı";
+        public static string PasswordError="Şifre hatalı";
+        public static string SuccessfulLogin="Giriş başarılı";
+        public static string UserAlreadyExists="Kullanıcı kayıtlı";
+        public static string AccessTokenCreated="Token oluşturuldu";
+        public static string ProductUpdated = "Ürün güncellendi";
     }
 }

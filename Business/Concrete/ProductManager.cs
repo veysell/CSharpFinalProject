@@ -2,6 +2,9 @@
 using Business.BusinnessAspects.Autofac;
 using Business.Constans;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspect.Autofac.Caching;
+using Core.Aspect.Autofac.Performance;
+using Core.Aspect.Autofac.Transaction;
 using Core.Aspect.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Business;
@@ -32,8 +35,9 @@ namespace Business.Concrete
         }
 
         //[SecuredOperation("product.add,admin")]
+        [CacheRemoveAspect("IProductService.Get")]
         [ValidationAspect(typeof(ProductValidator))]
-        public IResult Add(Product product)
+        public IResult Add(Product product)   
         {
             IResult result = BusinessRules.Run(CheckIfProductCountOfCategoryCorrect(product.CategoryId), 
                 CheckIfProductNameExists(product.ProductName),CheckIfCategoryLimitExceded());
@@ -46,6 +50,7 @@ namespace Business.Concrete
 
         }
 
+        [CacheAspect]
         public IDataResult<List<Product>> GetAll()
         {
             //iş kodları 
@@ -63,6 +68,8 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.CategoryId == id));
         }
 
+        [CacheAspect]
+        [PerformanceAspect(5)]
         public IDataResult<Product> GetById(int productId)
         {
             return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductId == productId));
@@ -79,6 +86,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Update(Product product)
         {
             throw new NotImplementedException();
@@ -112,6 +120,14 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.CategoryLimitExceded);
             }
             return new SuccessResult();
+        }
+
+        [TransactionScopeAspect]
+        public IResult AddTransactionalTest(Product product)
+        {
+            _productDal.Update(product);
+            _productDal.Add(product);
+            return new SuccessResult(Messages.ProductUpdated);
         }
     }
 }
